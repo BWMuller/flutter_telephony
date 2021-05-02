@@ -83,18 +83,26 @@ class FltFlutterTelephonyPlugin(var registrar: Registrar) : MethodCallHandler {
             if (ContextCompat.checkSelfPermission(registrar.activeContext(), android.Manifest.permission.READ_PHONE_STATE) == PERMISSION_GRANTED
                 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
             ) {
-                resultMap["dataNetworkType"] = telephonyManager.dataNetworkType
+                try {
+                    resultMap["dataNetworkType"] = telephonyManager.dataNetworkType
+                } catch (ex: SecurityException) {
+                }
             }
 
             //软件版本
-            if (ContextCompat.checkSelfPermission(registrar.activeContext(), android.Manifest.permission.READ_PHONE_STATE) == PERMISSION_GRANTED)
-                resultMap["deviceSoftwareVersion"] = telephonyManager.deviceSoftwareVersion
+            if (ContextCompat.checkSelfPermission(registrar.activeContext(), android.Manifest.permission.READ_PHONE_STATE) == PERMISSION_GRANTED) {
+                try {
+                    resultMap["deviceSoftwareVersion"] = telephonyManager.deviceSoftwareVersion
+                } catch (ex: SecurityException) {
+                }
+            }
 
             //IMEI
             if (ContextCompat.checkSelfPermission(registrar.activeContext(), android.Manifest.permission.READ_PHONE_STATE) == PERMISSION_GRANTED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 try {
                     resultMap["imei"] = telephonyManager.imei
-                } catch (ex: SecurityException) {}
+                } catch (ex: SecurityException) {
+                }
             }
 
             //是否启用数据
@@ -144,21 +152,31 @@ class FltFlutterTelephonyPlugin(var registrar: Registrar) : MethodCallHandler {
             if (ContextCompat.checkSelfPermission(registrar.activeContext(), android.Manifest.permission.READ_PHONE_STATE) == PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(registrar.activeContext(), android.Manifest.permission.READ_SMS) == PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(registrar.activeContext(), android.Manifest.permission.READ_PHONE_NUMBERS) == PERMISSION_GRANTED
-            )
-                resultMap["line1Number"] = telephonyManager.line1Number
+            ) {
+                try {
+                    resultMap["line1Number"] = telephonyManager.line1Number
+                } catch (ex: SecurityException) {
+                }
+            }
 
             //MEID
             if (ContextCompat.checkSelfPermission(registrar.activeContext(), android.Manifest.permission.READ_PHONE_STATE) == PERMISSION_GRANTED
                 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
             ) {
-                resultMap["meid"] = telephonyManager.meid
+                try {
+                    resultMap["meid"] = telephonyManager.meid
+                } catch (ex: SecurityException) {
+                }
             }
 
             //NAI
             if (ContextCompat.checkSelfPermission(registrar.activeContext(), android.Manifest.permission.READ_PHONE_STATE) == PERMISSION_GRANTED
                 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
             ) {
-                resultMap["nai"] = telephonyManager.nai
+                try {
+                    resultMap["nai"] = telephonyManager.nai
+                } catch (ex: SecurityException) {
+                }
             }
 
             /**
@@ -249,60 +267,67 @@ class FltFlutterTelephonyPlugin(var registrar: Registrar) : MethodCallHandler {
             resultMap["simOperatorName"] = telephonyManager.simOperatorName
 
             //SIM 序列号
-            if (ContextCompat.checkSelfPermission(registrar.activeContext(), android.Manifest.permission.READ_PHONE_STATE) == PERMISSION_GRANTED)
-                resultMap["simSerialNumber"] = telephonyManager.simSerialNumber
+            if (ContextCompat.checkSelfPermission(registrar.activeContext(), android.Manifest.permission.READ_PHONE_STATE) == PERMISSION_GRANTED) {
+                try {
+                    resultMap["simSerialNumber"] = telephonyManager.simSerialNumber
+                } catch (ex: SecurityException) {
+                }
+            }
 
             //CELL INFO
             if (ContextCompat.checkSelfPermission(registrar.activeContext(), android.Manifest.permission.READ_PHONE_STATE) == PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(registrar.activeContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PERMISSION_GRANTED
                 && Build.VERSION.SDK_INT >= 17
             ) {
-                val allCellInfo = telephonyManager.allCellInfo
+                try {
+                    val allCellInfo = telephonyManager.allCellInfo
 //                List<CellInfo> cf ;
-                cellInfo.clear()
-                var strength = "";
-                var strengthint = 100
-                if (allCellInfo != null)
-                    allCellInfo.forEach {
-                        when (it) {
-                            is CellInfoGsm -> getCellInfo(it)
-                            is CellInfoWcdma -> getCellInfo(it)
-                            is CellInfoLte -> getCellInfo(it)
-                            else -> null
-                        }
-
-                        if (it.isRegistered()) {
+                    cellInfo.clear()
+                    var strength = "";
+                    var strengthint = 100
+                    if (allCellInfo != null)
+                        allCellInfo.forEach {
                             when (it) {
-                                is CellInfoWcdma -> {
-                                    val cellSignalStrengthWcdma = it.getCellSignalStrength()
-                                    strengthint = cellSignalStrengthWcdma.getDbm()
-                                    if (strengthint <= 0) {
-                                        strength = "$strengthint"
-                                    }
-                                }
-                                is CellInfoGsm -> {
-                                    val cellSignalStrengthGsm = it.getCellSignalStrength()
-                                    strengthint = cellSignalStrengthGsm.getDbm()
-                                    if (strengthint <= 0) {
-                                        strength = "$strengthint"
-                                    }
-                                }
-                                is CellInfoLte -> {
-                                    val cellSignalStrengthLte = it.getCellSignalStrength()
-                                    strengthint = cellSignalStrengthLte.getDbm()
-                                    if (strengthint <= 0) {
-                                        strength = "$strengthint"
-                                    }
-                                }
+                                is CellInfoGsm -> getCellInfo(it)
+                                is CellInfoWcdma -> getCellInfo(it)
+                                is CellInfoLte -> getCellInfo(it)
                                 else -> null
                             }
+
+                            if (it.isRegistered()) {
+                                when (it) {
+                                    is CellInfoWcdma -> {
+                                        val cellSignalStrengthWcdma = it.getCellSignalStrength()
+                                        strengthint = cellSignalStrengthWcdma.getDbm()
+                                        if (strengthint <= 0) {
+                                            strength = "$strengthint"
+                                        }
+                                    }
+                                    is CellInfoGsm -> {
+                                        val cellSignalStrengthGsm = it.getCellSignalStrength()
+                                        strengthint = cellSignalStrengthGsm.getDbm()
+                                        if (strengthint <= 0) {
+                                            strength = "$strengthint"
+                                        }
+                                    }
+                                    is CellInfoLte -> {
+                                        val cellSignalStrengthLte = it.getCellSignalStrength()
+                                        strengthint = cellSignalStrengthLte.getDbm()
+                                        if (strengthint <= 0) {
+                                            strength = "$strengthint"
+                                        }
+                                    }
+                                    else -> null
+                                }
+                            }
                         }
-                    }
 //                println(telephonyManager.allCellInfo[0])
-                if (cellInfo.count() != 0)
-                    resultMap["allCellInfo"] = cellInfo
-                if (strength.isNotEmpty())
-                    resultMap["networkDbm"] = strength
+                    if (cellInfo.count() != 0)
+                        resultMap["allCellInfo"] = cellInfo
+                    if (strength.isNotEmpty())
+                        resultMap["networkDbm"] = strength
+                } catch (ex: SecurityException) {
+                }
             }
 
             if (cellInfo.count() == 0)
@@ -310,41 +335,47 @@ class FltFlutterTelephonyPlugin(var registrar: Registrar) : MethodCallHandler {
                     ContextCompat.checkSelfPermission(registrar.activeContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PERMISSION_GRANTED
 //                        && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
                 ) {
-                    val allCellLocation = telephonyManager.cellLocation as GsmCellLocation
-                    val net = telephonyManager.networkOperator
+                    try {
+                        val allCellLocation = telephonyManager.cellLocation as GsmCellLocation
+                        val net = telephonyManager.networkOperator
 
-                    val mcc = net.substring(0, 3)
-                    val mnc = net.substring(3)
+                        val mcc = net.substring(0, 3)
+                        val mnc = net.substring(3)
 
-                    cellInfo.clear()
-                    cellInfo.add("CDMA")
-                    cellInfo.add(mcc.toString())
-                    cellInfo.add(mnc.toString())
-                    cellInfo.add(allCellLocation.lac.toString())
-                    cellInfo.add(allCellLocation.cid.toString())
-                    cellInfo.add(allCellLocation.psc.toString())
-                    if (allCellLocation.cid > 50 && allCellLocation.cid != 2147483647)
-                        resultMap["allCellInfo"] = cellInfo
+                        cellInfo.clear()
+                        cellInfo.add("CDMA")
+                        cellInfo.add(mcc.toString())
+                        cellInfo.add(mnc.toString())
+                        cellInfo.add(allCellLocation.lac.toString())
+                        cellInfo.add(allCellLocation.cid.toString())
+                        cellInfo.add(allCellLocation.psc.toString())
+                        if (allCellLocation.cid > 50 && allCellLocation.cid != 2147483647)
+                            resultMap["allCellInfo"] = cellInfo
+                    } catch (ex: SecurityException) {
+                    }
                 }
 
             if (ContextCompat.checkSelfPermission(registrar.activeContext(), android.Manifest.permission.READ_PHONE_STATE) == PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(registrar.activeContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PERMISSION_GRANTED
                 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
             ) {
-                val allCellLocation = telephonyManager.cellLocation as GsmCellLocation
-                val net = telephonyManager.networkOperator
+                try {
+                    val allCellLocation = telephonyManager.cellLocation as GsmCellLocation
+                    val net = telephonyManager.networkOperator
 
-                val mcc = net.substring(0, 3)
-                val mnc = net.substring(3)
+                    val mcc = net.substring(0, 3)
+                    val mnc = net.substring(3)
 
-                cellLocation.clear()
-                cellLocation.add("CDMA")
-                cellLocation.add(mcc.toString())
-                cellLocation.add(mnc.toString())
-                cellLocation.add(allCellLocation.lac.toString())
-                cellLocation.add(allCellLocation.cid.toString())
-                cellLocation.add(allCellLocation.psc.toString())
-                resultMap["cellLocation"] = cellLocation
+                    cellLocation.clear()
+                    cellLocation.add("CDMA")
+                    cellLocation.add(mcc.toString())
+                    cellLocation.add(mnc.toString())
+                    cellLocation.add(allCellLocation.lac.toString())
+                    cellLocation.add(allCellLocation.cid.toString())
+                    cellLocation.add(allCellLocation.psc.toString())
+                    resultMap["cellLocation"] = cellLocation
+                } catch (ex: SecurityException) {
+                }
             }
 
             result.success(resultMap)
