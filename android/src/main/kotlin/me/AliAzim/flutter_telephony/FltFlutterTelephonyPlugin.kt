@@ -19,6 +19,7 @@ import android.telephony.CellInfoGsm
 import android.telephony.CellInfoLte
 import android.telephony.CellInfoWcdma
 import android.telephony.gsm.GsmCellLocation
+import java.lang.SecurityException
 
 val cellInfo = mutableListOf<String>();
 val cellLocation = mutableListOf<String>();
@@ -91,7 +92,9 @@ class FltFlutterTelephonyPlugin(var registrar: Registrar) : MethodCallHandler {
 
             //IMEI
             if (ContextCompat.checkSelfPermission(registrar.activeContext(), android.Manifest.permission.READ_PHONE_STATE) == PERMISSION_GRANTED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                resultMap["imei"] = telephonyManager.imei
+                try {
+                    resultMap["imei"] = telephonyManager.imei
+                } catch (ex: SecurityException) {}
             }
 
             //是否启用数据
