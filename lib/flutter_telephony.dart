@@ -125,6 +125,7 @@ class FlutterTelephony {
     this.networkSpecifier,
     this.networkType,
     this.networkOperatorName,
+    this.networkDbm,
     this.phoneCount,
     this.phoneType,
     this.serviceState,
@@ -194,6 +195,7 @@ class FlutterTelephony {
   ///[NetworkType]
   int? networkType;
   String? networkOperatorName;
+  String? networkDbm;
 
   ///可用的SIM卡数量
   int? phoneCount;
@@ -239,6 +241,7 @@ class FlutterTelephony {
       networkSpecifier: map["networkSpecifier"],
       networkType: map["networkType"],
       networkOperatorName: map["networkOperatorName"],
+      networkDbm: map["networkDbm"],
       phoneCount: map["phoneCount"],
       phoneType: map["phoneType"],
       serviceState: map["serviceState"],
@@ -261,30 +264,31 @@ class FlutterTelephony {
   String toString() {
     super.toString();
     return "{"
-        // "\ncallState:$callState,"
-        // "\ndataNetworkType:$dataNetworkType,"
-        // "\ndeviceSoftwareVersion:$deviceSoftwareVersion,"
-        // "\nimei:$imei,"
-        // "\nisDataEnabled:$isDataEnabled,"
-        // "\nisSmsCapable:$isSmsCapable,"
-        // "\nisVoiceCapable:$isVoiceCapable,"
-        // "\nline1Number:$line1Number,"
-        // "\nmeid:$meid,"
-        // "\nnai:$nai,"
-        // "\nnetworkCountryIso:$networkCountryIso,"
-        // "\nnetworkOperator:$networkOperator,"
-        // "\nnetworkSpecifier:$networkSpecifier,"
-        // "\nnetworkType:$networkType,"
-        // "\nnetworkOperatorName:$networkOperatorName,"
-        // "\nphoneCount:$phoneCount,"
-        // "\nphoneType:$phoneType,"
-        // "\nserviceState:$serviceState,"
-        // "\nsimCarrierId:$simCarrierId,"
-        // "\nsimCarrierIdName:$simCarrierIdName,"
-        // "\nsimCountryIso:$simCountryIso,"
-        // "\nsimOperator:$simOperator,"
-        // "\nsimOperatorName:$simOperatorName,"
-        // "\nsimSerialNumber:$simSerialNumber"
+        "\ncallState:$callState,"
+        "\ndataNetworkType:$dataNetworkType,"
+        "\ndeviceSoftwareVersion:$deviceSoftwareVersion,"
+        "\nimei:$imei,"
+        "\nisDataEnabled:$isDataEnabled,"
+        "\nisSmsCapable:$isSmsCapable,"
+        "\nisVoiceCapable:$isVoiceCapable,"
+        "\nline1Number:$line1Number,"
+        "\nmeid:$meid,"
+        "\nnai:$nai,"
+        "\nnetworkCountryIso:$networkCountryIso,"
+        "\nnetworkOperator:$networkOperator,"
+        "\nnetworkSpecifier:$networkSpecifier,"
+        "\nnetworkType:$networkType,"
+        "\nnetworkOperatorName:$networkOperatorName,"
+        "\nnetworkDbm:$networkDbm,"
+        "\nphoneCount:$phoneCount,"
+        "\nphoneType:$phoneType,"
+        "\nserviceState:$serviceState,"
+        "\nsimCarrierId:$simCarrierId,"
+        "\nsimCarrierIdName:$simCarrierIdName,"
+        "\nsimCountryIso:$simCountryIso,"
+        "\nsimOperator:$simOperator,"
+        "\nsimOperatorName:$simOperatorName,"
+        "\nsimSerialNumber:$simSerialNumber"
         "\ncellInfo:$cellInfo"
         "\ncellLocation:$cellLocation"
         "\n}";
