@@ -7,7 +7,7 @@ class FlutterTelephonyInfo {
 
   static Future<FlutterTelephony> get get async {
     final FlutterTelephony flutterTelephony = FlutterTelephony.fromMap(
-        await (_channel.invokeMapMethod<String, dynamic>('getFlutterTelephony') as FutureOr<Map<String, dynamic>>));
+        await (_channel.invokeMapMethod<String, dynamic>('getFlutterTelephony') as FutureOr<Map<String, dynamic>?>));
     print(flutterTelephony.toString());
     return flutterTelephony;
   }
@@ -223,7 +223,9 @@ class FlutterTelephony {
 
   static Map<String, dynamic>? _map;
 
-  static FlutterTelephony fromMap(Map<String, dynamic> map) {
+  static FlutterTelephony fromMap(Map<String, dynamic>? map) {
+    if (map == null)
+      return FlutterTelephony._();
     _map = map;
     return FlutterTelephony._(
       callState: map["callState"],

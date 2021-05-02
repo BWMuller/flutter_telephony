@@ -299,21 +299,21 @@ class FltFlutterTelephonyPlugin(var registrar: Registrar) : MethodCallHandler {
                                     is CellInfoWcdma -> {
                                         val cellSignalStrengthWcdma = it.getCellSignalStrength()
                                         strengthint = cellSignalStrengthWcdma.getDbm()
-                                        if (strengthint <= 0) {
+                                        if (strengthint <= 0 && strength.isEmpty()) {
                                             strength = "$strengthint"
                                         }
                                     }
                                     is CellInfoGsm -> {
                                         val cellSignalStrengthGsm = it.getCellSignalStrength()
                                         strengthint = cellSignalStrengthGsm.getDbm()
-                                        if (strengthint <= 0) {
+                                        if (strengthint <= 0 && strength.isEmpty()) {
                                             strength = "$strengthint"
                                         }
                                     }
                                     is CellInfoLte -> {
                                         val cellSignalStrengthLte = it.getCellSignalStrength()
                                         strengthint = cellSignalStrengthLte.getDbm()
-                                        if (strengthint <= 0) {
+                                        if (strengthint <= 0 && strength.isEmpty()) {
                                             strength = "$strengthint"
                                         }
                                     }
@@ -326,7 +326,7 @@ class FltFlutterTelephonyPlugin(var registrar: Registrar) : MethodCallHandler {
                         resultMap["allCellInfo"] = cellInfo
                     if (strength.isNotEmpty())
                         resultMap["networkDbm"] = strength
-                } catch (ex: SecurityException) {
+                } catch (ex: Throwable) {
                 }
             }
 
@@ -351,7 +351,7 @@ class FltFlutterTelephonyPlugin(var registrar: Registrar) : MethodCallHandler {
                         cellInfo.add(allCellLocation.psc.toString())
                         if (allCellLocation.cid > 50 && allCellLocation.cid != 2147483647)
                             resultMap["allCellInfo"] = cellInfo
-                    } catch (ex: SecurityException) {
+                    } catch (ex: Throwable) {
                     }
                 }
 
@@ -374,7 +374,7 @@ class FltFlutterTelephonyPlugin(var registrar: Registrar) : MethodCallHandler {
                     cellLocation.add(allCellLocation.cid.toString())
                     cellLocation.add(allCellLocation.psc.toString())
                     resultMap["cellLocation"] = cellLocation
-                } catch (ex: SecurityException) {
+                } catch (ex: Throwable) {
                 }
             }
 
