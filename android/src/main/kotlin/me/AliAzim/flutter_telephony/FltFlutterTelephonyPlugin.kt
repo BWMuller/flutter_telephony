@@ -245,7 +245,7 @@ class FltFlutterTelephonyPlugin(var registrar: Registrar) : MethodCallHandler {
 //                resultMap["simSerialNumber"] = telephonyManager.simSerialNumber
 
             //CELL INFO
-            if (ContextCompat.checkSelfPermission(registrar.activeContext(), android.Manifest.permission.READ_PHONE_STATE) == PERMISSION_GRANTED ||
+            if (ContextCompat.checkSelfPermission(registrar.activeContext(), android.Manifest.permission.READ_PHONE_STATE) == PERMISSION_GRANTED &&
                     ContextCompat.checkSelfPermission(registrar.activeContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PERMISSION_GRANTED
                     && Build.VERSION.SDK_INT >= 17
             ) {
@@ -267,7 +267,7 @@ class FltFlutterTelephonyPlugin(var registrar: Registrar) : MethodCallHandler {
             }
 
             if(cellInfo.count() == 0)
-                if (ContextCompat.checkSelfPermission(registrar.activeContext(), android.Manifest.permission.READ_PHONE_STATE) == PERMISSION_GRANTED ||
+                if (ContextCompat.checkSelfPermission(registrar.activeContext(), android.Manifest.permission.READ_PHONE_STATE) == PERMISSION_GRANTED &&
                         ContextCompat.checkSelfPermission(registrar.activeContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PERMISSION_GRANTED
 //                        && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
                 ) {

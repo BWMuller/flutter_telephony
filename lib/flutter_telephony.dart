@@ -7,7 +7,7 @@ class FlutterTelephonyInfo {
 
   static Future<FlutterTelephony> get get async {
     final FlutterTelephony flutterTelephony = FlutterTelephony.fromMap(
-        await _channel.invokeMapMethod<String, dynamic>('getFlutterTelephony'));
+        await (_channel.invokeMapMethod<String, dynamic>('getFlutterTelephony') as FutureOr<Map<String, dynamic>>));
     print(flutterTelephony.toString());
     return flutterTelephony;
   }
@@ -140,86 +140,86 @@ class FlutterTelephony {
 
   ///当前电话状态
   ///返回值参考：[CallState]
-  int callState;
+  int? callState;
 
   ///当前使用中的网络数据类型
   ///安卓需要权限：android.permission.READ_PHONE_STATE
   ///[NetworkType]
-  int dataNetworkType;
+  int? dataNetworkType;
 
   ///设备的软件版本号
   ///安卓需要权限：android.permission.READ_PHONE_STATE
-  String deviceSoftwareVersion;
+  String? deviceSoftwareVersion;
 
   ///IMEI(International Mobile Equipment Identity)
   ///安卓需要权限：android.permission.READ_PHONE_STATE
-  String imei;
+  String? imei;
 
   ///是否打开网络数据
   ///安卓以下权限之一：
   ///android.permission.ACCESS_NETWORK_STATE
   ///android.permission.MODIFY_PHONE_STATE
-  bool isDataEnabled;
+  bool? isDataEnabled;
 
   ///是否漫游
-  bool isNetworkRoaming;
+  bool? isNetworkRoaming;
 
   ///是否支持短信
-  bool isSmsCapable;
+  bool? isSmsCapable;
 
   ///是否支持语音通信
-  bool isVoiceCapable;
+  bool? isVoiceCapable;
 
   ///手机号码，获取不到将返回null
   ///安卓需要以下权限之一：
   ///android.permission.READ_PHONE_STATE
   ///android.permission.READ_SMS
   ///android.permission.READ_PHONE_NUMBERS
-  String line1Number;
+  String? line1Number;
 
   ///MEID (Mobile Equipment Identifier)
   ///安卓需要权限：android.permission.READ_PHONE_STATE
-  String meid;
+  String? meid;
 
   ///Network Access Identifier (NAI)
   ///安卓需要权限：android.permission.READ_PHONE_STATE
-  String nai;
+  String? nai;
 
   ///当前网络所在国家代码
-  String networkCountryIso;
-  String networkOperator;
-  String networkSpecifier;
+  String? networkCountryIso;
+  String? networkOperator;
+  String? networkSpecifier;
 
   ///网络类型
   ///[NetworkType]
-  int networkType;
-  String networkOperatorName;
+  int? networkType;
+  String? networkOperatorName;
 
   ///可用的SIM卡数量
-  int phoneCount;
+  int? phoneCount;
 
   ///[PhoneType]
-  int phoneType;
+  int? phoneType;
   dynamic serviceState;
-  int simCarrierId;
+  int? simCarrierId;
 
   ///运营商名称
-  String simCarrierIdName;
-  String simCountryIso;
-  String simOperator;
+  String? simCarrierIdName;
+  String? simCountryIso;
+  String? simOperator;
 
   ///运营商名称
-  String simOperatorName;
-  String simSerialNumber;
+  String? simOperatorName;
+  String? simSerialNumber;
 
   //CELL INFO
-  List<CellInfo> cellInfo;
+  List<CellInfo>? cellInfo;
 
   // //Cell Location
 
-  List<CellInfo> cellLocation;
+  List<CellInfo>? cellLocation;
 
-  static Map<String, dynamic> _map;
+  static Map<String, dynamic>? _map;
 
   static FlutterTelephony fromMap(Map<String, dynamic> map) {
     _map = map;
@@ -248,8 +248,8 @@ class FlutterTelephony {
       simOperator: map["simOperator"],
       simOperatorName: map["simOperatorName"],
       simSerialNumber: map["simSerialNumber"],
-      cellInfo: CellInfo.fromList(map["allCellInfo"]) ?? null,
-      cellLocation: CellInfo.fromList(map["cellLocation"]) ?? null,
+      cellInfo: CellInfo.fromList(map["allCellInfo"]),
+      cellLocation: CellInfo.fromList(map["cellLocation"]),
     );
   }
 
@@ -310,18 +310,18 @@ class CellInfo {
     this.pci,
   });
 
-  static List<CellInfo> fromList(List<dynamic> list) {
+  static List<CellInfo> fromList(List<dynamic>? list) {
     List<CellInfo> cellInfoList = [];
     if (list != null)
       for (int i = 0; i < list.length / 6; i++) {
         cellInfoList.add(
           CellInfo._(
-            radio: list != null ? list[i * 6] : null,
-            mcc: list != null ? list[(i * 6) + 1] : null,
-            mnc: list != null ? list[(i * 6) + 2] : null,
-            tac: list != null ? list[(i * 6) + 3] : null,
-            ci: list != null ? list[(i * 6) + 4] : null,
-            pci: list != null ? list[(i * 6) + 5] : null,
+            radio: list[i * 6],
+            mcc: list[(i * 6) + 1],
+            mnc: list[(i * 6) + 2],
+            tac: list[(i * 6) + 3],
+            ci: list[(i * 6) + 4],
+            pci: list[(i * 6) + 5],
           ),
         );
       }

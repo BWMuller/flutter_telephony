@@ -16,6 +16,6 @@ void main() {
   });
 
   test('getPlatformVersion', () async {
-    expect(await FltFlutterTelephony.info, '42');
+    expect(await FlutterTelephonyInfo.get, '42');
   });
 }
