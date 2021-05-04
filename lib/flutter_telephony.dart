@@ -8,7 +8,6 @@ class FlutterTelephonyInfo {
   static Future<FlutterTelephony> get get async {
     final FlutterTelephony flutterTelephony = FlutterTelephony.fromMap(
         await (_channel.invokeMapMethod<String, dynamic>('getFlutterTelephony') as FutureOr<Map<String, dynamic>?>));
-    print(flutterTelephony.toString());
     return flutterTelephony;
   }
 }
